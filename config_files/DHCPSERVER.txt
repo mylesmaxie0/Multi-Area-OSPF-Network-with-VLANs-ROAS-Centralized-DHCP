@@ -1,0 +1,93 @@
+Current configuration : 1471 bytes
+!
+version 15.0
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname DHCP-SERVER
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+ip cef
+ip dhcp excluded-address 192.168.10.1
+ip dhcp excluded-address 192.168.20.1
+ip dhcp excluded-address 192.168.30.1
+ip dhcp excluded-address 192.168.40.1
+ip dhcp excluded-address 192.168.50.1
+ip dhcp excluded-address 192.168.60.1
+!
+ip dhcp pool VLAN_10
+   network 192.168.10.0 255.255.255.0
+   default-router 192.168.10.1
+!
+ip dhcp pool VLAN_20
+   network 192.168.20.0 255.255.255.0
+   default-router 192.168.20.1
+!
+ip dhcp pool VLAN_30
+   network 192.168.30.0 255.255.255.0
+   default-router 192.168.30.1
+!
+ip dhcp pool VLAN_40
+   network 192.168.40.0 255.255.255.0
+   default-router 192.168.40.1
+!
+ip dhcp pool VLAN_50
+   network 192.168.50.0 255.255.255.0
+   default-router 192.168.50.1
+!
+ip dhcp pool VLAN_60
+   network 192.168.60.0 255.255.255.0
+   default-router 192.168.60.1
+!
+no ipv6 cef
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ ip address 172.168.10.2 255.255.255.252
+!
+interface Ethernet0/1
+ no ip address
+ shutdown
+!
+interface Ethernet0/2
+ no ip address
+ shutdown
+!
+interface Ethernet0/3
+ no ip address
+ shutdown
+!
+router ospf 1
+ router-id 6.6.6.6
+ network 172.168.10.0 0.0.0.3 area 0
+!
+!
+ip forward-protocol nd
+no ip http server
+!
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input all
+!
+end
