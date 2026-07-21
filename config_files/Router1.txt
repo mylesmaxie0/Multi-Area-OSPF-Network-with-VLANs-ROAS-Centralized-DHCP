@@ -1,1 +1,118 @@
-yjttyjtyjjy
+Current configuration : 1863 bytes
+!
+version 15.0
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+ip cef
+no ip domain-lookup
+!
+no ipv6 cef
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ description ## Down Stream Link to Switch 1 ##
+ no ip address
+!
+interface Ethernet0/0.50
+ description ## Down Stream Link to VLAN 50 ##
+ encapsulation dot1Q 50
+ ip address 192.168.50.1 255.255.255.0
+ ip helper-address 172.168.10.2
+!
+interface Ethernet0/0.60
+ description ## Down Stream Link to VLAN 60 ##
+ encapsulation dot1Q 60
+ ip address 192.168.60.1 255.255.255.0
+ ip helper-address 172.168.10.2
+!
+interface Ethernet0/1
+ description ## Link to DHCP Server ##
+ ip address 172.168.10.1 255.255.255.252
+!
+interface Ethernet0/2
+ no ip address
+ shutdown
+!
+interface Ethernet0/3
+ no ip address
+ shutdown
+!
+interface Ethernet1/0
+ no ip address
+ shutdown
+!
+interface Ethernet1/1
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no ip address
+ shutdown
+!
+interface Serial2/0
+ description ## Link to Router 2 ##
+ ip address 172.168.11.1 255.255.255.252
+ no fair-queue
+ serial restart-delay 0
+!
+interface Serial2/1
+ description ## Link to Router 3 ##
+ ip address 172.168.12.1 255.255.255.252
+ serial restart-delay 0
+!
+interface Serial2/2
+ no ip address
+ shutdown
+ serial restart-delay 0
+!
+interface Serial2/3
+ no ip address
+ shutdown
+ serial restart-delay 0
+!
+router ospf 1
+ router-id 1.1.1.1
+ network 172.168.10.0 0.0.0.3 area 0
+ network 172.168.11.0 0.0.0.3 area 0
+ network 172.168.12.0 0.0.0.3 area 0
+ network 192.168.50.0 0.0.0.255 area 2
+ network 192.168.60.0 0.0.0.255 area 2
+!
+!
+ip forward-protocol nd
+no ip http server
+!
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input all
+!
+end
